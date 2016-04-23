@@ -28,4 +28,18 @@ class Position {
 		// TODO
 		throw new UnsupportedOperationException();
 	}
+
+	int getX() {
+		return x;
+	}
+
+	int getY() {
+		return y;
+	}
+
+	CardinalDirection getDirection() {
+		return direction;
+	}
+	
+	
 }

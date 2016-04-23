@@ -2,7 +2,7 @@ package com.elo7.marsexplorer;
 
 import java.util.List;
 
-/** A sonda. Inicia em uma posição e recebe comandos de navegação */
+/** Sonda em Marte. Inicia em uma posição e recebe comandos de navegação */
 class Probe {
 
 	private Position position;
@@ -11,8 +11,13 @@ class Probe {
 		this.position = position;
 	}
 
-	Position execute(final List<NavigationCommand> commands) {
-		// TODO
-		throw new UnsupportedOperationException();
+	Position executeCommand(final NavigationCommand navigationCommand) {
+		this.position = navigationCommand.determineNewPosition(position);
+		return position;
+	}
+
+	Position executeCommands(final List<NavigationCommand> navigationCommands) {
+		navigationCommands.stream().forEach(c -> this.executeCommand(c));
+		return position;
 	}
 }
