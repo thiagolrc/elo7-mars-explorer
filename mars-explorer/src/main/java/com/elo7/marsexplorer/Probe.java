@@ -6,13 +6,17 @@ import java.util.List;
 class Probe {
 
 	private Position position;
+	private final Plateau plateau;
 
-	Probe(final Position position) {
+	Probe(final Position position, final Plateau plateau) {
 		this.position = position;
+		this.plateau = plateau;
 	}
 
 	Position executeCommand(final NavigationCommand navigationCommand) {
-		this.position = navigationCommand.determineNewPosition(position);
+		Position newPosition = navigationCommand.determineNewPosition(position);
+		plateau.validatePositioning(newPosition);
+		this.position = newPosition;
 		return position;
 	}
 
@@ -20,4 +24,9 @@ class Probe {
 		navigationCommands.stream().forEach(c -> this.executeCommand(c));
 		return position;
 	}
+
+	Position getPosition() {
+		return position;
+	}
+
 }

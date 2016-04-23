@@ -20,16 +20,18 @@ public class ProbeTest {
 
 	@Mock
 	private Position position;
+	@Mock
+	private Plateau plateau;
 
 	private Probe probe;
 
 	@Before
 	public void before() {
-		probe = new Probe(position);
+		probe = new Probe(position, plateau);
 	}
 
 	@Test
-	public void executeCommandShouldDetermineNewPositionAndModifyProbesPosition() {
+	public void executeCommandShouldDetermineNewPositionValidateItAndModifyProbesPosition() {
 		NavigationCommand c = Mockito.mock(NavigationCommand.class);
 		Position expectedPosition = Mockito.mock(Position.class);
 		Mockito.when(c.determineNewPosition(position)).thenReturn(expectedPosition);
@@ -37,6 +39,22 @@ public class ProbeTest {
 		Position newPosition = probe.executeCommand(c);
 
 		Assert.assertEquals(expectedPosition, newPosition);
+		Mockito.verify(plateau).validatePositioning(expectedPosition);
+	}
+
+	@Test
+	public void executeCommandShouldFailWithoutModifyingCurrentPositionIfNewPositionIsNotAllowedOnPlateau() {
+		NavigationCommand c = Mockito.mock(NavigationCommand.class);
+		Position expectedPosition = Mockito.mock(Position.class);
+		Mockito.when(c.determineNewPosition(position)).thenReturn(expectedPosition);
+		Mockito.doThrow(new IllegalArgumentException()).when(plateau).validatePositioning(expectedPosition);
+
+		try {
+			probe.executeCommand(c);
+			Assert.fail("it was supposed to fail");
+		} catch (IllegalArgumentException e) {
+			Assert.assertEquals(position, probe.getPosition());
+		}
 	}
 
 	/*
