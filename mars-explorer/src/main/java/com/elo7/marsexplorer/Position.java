@@ -15,18 +15,37 @@ class Position {
 	}
 
 	Position moveForward() {
-		// TODO
-		throw new UnsupportedOperationException();
+		// TODO Esquisito isso, talvez a direção cardinal devesse virar um
+		// CardinalPosition e não só conter a direção, mas tb se mover. Isso
+		// pode evitar esse switch bizarro
+		Position newPosition;
+		switch (direction) {
+		case N:
+			newPosition = new Position(x, y + 1, direction);
+			break;
+		case S:
+			newPosition = new Position(x, y - 1, direction);
+			break;
+		case E:
+			newPosition = new Position(x + 1, y, direction);
+			break;
+		case W:
+			newPosition = new Position(x - 1, y, direction);
+			break;
+
+		default:
+			throw new UnsupportedOperationException("Direção cardinal não reconhecida");
+
+		}
+		return newPosition;
 	}
 
 	Position rotateLeft() {
-		// TODO
-		throw new UnsupportedOperationException();
+		return new Position(x, y, direction.rotateLeft());
 	}
 
 	Position rotateRight() {
-		// TODO
-		throw new UnsupportedOperationException();
+		return new Position(x, y, direction.rotateRight());
 	}
 
 	int getX() {
@@ -40,6 +59,10 @@ class Position {
 	CardinalDirection getDirection() {
 		return direction;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return x + " " + y + " " + direction;
+	}
+
 }
