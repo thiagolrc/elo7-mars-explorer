@@ -1,5 +1,9 @@
 package com.elo7.marsexplorer;
 
+import static com.elo7.marsexplorer.NavigationCommand.L;
+import static com.elo7.marsexplorer.NavigationCommand.M;
+import static com.elo7.marsexplorer.NavigationCommand.R;
+
 import java.util.Arrays;
 
 import org.junit.Assert;
@@ -64,9 +68,9 @@ public class ProbeTest {
 		Probe partialMock = Mockito.mock(Probe.class);
 		Mockito.when(partialMock.executeCommands(Matchers.anyListOf(NavigationCommand.class))).thenCallRealMethod();
 
-		NavigationCommand c1 = NavigationCommand.L;
-		NavigationCommand c2 = NavigationCommand.M;
-		NavigationCommand c3 = NavigationCommand.R;
+		NavigationCommand c1 = L;
+		NavigationCommand c2 = M;
+		NavigationCommand c3 = R;
 
 		InOrder order = Mockito.inOrder(partialMock);
 		Mockito.when(partialMock.executeCommand(Matchers.any(NavigationCommand.class))).thenReturn(position);
@@ -76,6 +80,19 @@ public class ProbeTest {
 		order.verify(partialMock).executeCommand(c1);
 		order.verify(partialMock).executeCommand(c2);
 		order.verify(partialMock).executeCommand(c3);
+	}
+	
+	@Test
+	public void testSpecificationExamples(){
+		Probe probe1 = new Probe(new Position(1, 2, CardinalDirection.N), plateau);
+		Position probe1FinalPosition = probe1.executeCommands(Arrays.asList(L,M,L,M,L,M,L,M,M));
+		Assert.assertEquals("1 3 N", probe1FinalPosition.toString());
+		Assert.assertEquals("1 3 N", probe1.getPosition().toString());
+		
+		Probe probe2 = new Probe(new Position(3, 3, CardinalDirection.E), plateau);
+		Position probe2FinalPosition = probe2.executeCommands(Arrays.asList(M,M,R,M,M,R,M,R,R,M));
+		Assert.assertEquals("5 1 E", probe2FinalPosition.toString());
+		Assert.assertEquals("5 1 E", probe2.getPosition().toString());
 	}
 
 }

@@ -8,6 +8,7 @@ class Probe {
 	private Position position;
 	private final Plateau plateau;
 
+	//TODO Sera q nao faz mais sentido o plateau fazer parte da posicao ou coisa parecida?
 	Probe(final Position position, final Plateau plateau) {
 		this.position = position;
 		this.plateau = plateau;
