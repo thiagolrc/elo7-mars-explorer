@@ -29,6 +29,7 @@ public class ProbeTest {
 
 	@Before
 	public void before() {
+		Mockito.when(plateau.isPositionValid(Matchers.any(Position.class))).thenReturn(true);
 		probe = new Probe(position, plateau);
 	}
 
@@ -41,7 +42,7 @@ public class ProbeTest {
 		Position newPosition = probe.executeCommand(c);
 
 		Assert.assertEquals(expectedPosition, newPosition);
-		Mockito.verify(plateau).validatePositioning(expectedPosition);
+		Mockito.verify(plateau).isPositionValid(expectedPosition);
 	}
 
 	@Test
@@ -49,7 +50,7 @@ public class ProbeTest {
 		NavigationCommand c = Mockito.mock(NavigationCommand.class);
 		Position expectedPosition = Mockito.mock(Position.class);
 		Mockito.when(c.determineNewPosition(position)).thenReturn(expectedPosition);
-		Mockito.doThrow(new IllegalArgumentException()).when(plateau).validatePositioning(expectedPosition);
+		Mockito.when(plateau.isPositionValid(expectedPosition)).thenReturn(false);
 
 		try {
 			probe.executeCommand(c);
@@ -81,16 +82,17 @@ public class ProbeTest {
 		order.verify(partialMock).executeCommand(c2);
 		order.verify(partialMock).executeCommand(c3);
 	}
-	
+
 	@Test
-	public void testSpecificationExamples(){
-		Probe probe1 = new Probe(new Position(1, 2, CardinalDirection.N), plateau);
-		Position probe1FinalPosition = probe1.executeCommands(Arrays.asList(L,M,L,M,L,M,L,M,M));
+	public void testSpecificationExamples() {
+		Plateau realPlateau = new Plateau(5, 5);
+		Probe probe1 = new Probe(new Position(1, 2, CardinalDirection.N), realPlateau);
+		Position probe1FinalPosition = probe1.executeCommands(Arrays.asList(L, M, L, M, L, M, L, M, M));
 		Assert.assertEquals("1 3 N", probe1FinalPosition.toString());
 		Assert.assertEquals("1 3 N", probe1.getPosition().toString());
-		
-		Probe probe2 = new Probe(new Position(3, 3, CardinalDirection.E), plateau);
-		Position probe2FinalPosition = probe2.executeCommands(Arrays.asList(M,M,R,M,M,R,M,R,R,M));
+
+		Probe probe2 = new Probe(new Position(3, 3, CardinalDirection.E), realPlateau);
+		Position probe2FinalPosition = probe2.executeCommands(Arrays.asList(M, M, R, M, M, R, M, R, R, M));
 		Assert.assertEquals("5 1 E", probe2FinalPosition.toString());
 		Assert.assertEquals("5 1 E", probe2.getPosition().toString());
 	}

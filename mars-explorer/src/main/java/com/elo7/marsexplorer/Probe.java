@@ -8,10 +8,19 @@ class Probe {
 	private Position position;
 	private final Plateau plateau;
 
-	//TODO Sera q nao faz mais sentido o plateau fazer parte da posicao ou coisa parecida?
-	Probe(final Position position, final Plateau plateau) {
-		this.position = position;
+	// TODO Sera q nao faz mais sentido o plateau fazer parte da posicao ou
+	// coisa parecida?
+	/**
+	 * 
+	 * @param position
+	 * @param plateau
+	 * @throws IllegalArgumentException
+	 *             ao tentar criar uma sonda fora da área do planalto
+	 */
+	Probe(final Position position, final Plateau plateau) throws IllegalArgumentException {
 		this.plateau = plateau;
+		validatePositionOnPlateau(position);
+		this.position = position;
 	}
 
 	/**
@@ -25,7 +34,7 @@ class Probe {
 	 */
 	Position executeCommand(final NavigationCommand navigationCommand) throws IllegalArgumentException {
 		Position newPosition = navigationCommand.determineNewPosition(position);
-		plateau.validatePositioning(newPosition);
+		validatePositionOnPlateau(newPosition);
 		this.position = newPosition;
 		return position;
 	}
@@ -44,6 +53,12 @@ class Probe {
 	 */
 	Position getPosition() {
 		return position;
+	}
+
+	private void validatePositionOnPlateau(final Position position) throws IllegalArgumentException {
+		if (!plateau.isPositionValid(position)) {
+			throw new IllegalArgumentException("Posição da sonda está fora do planalto");
+		}
 	}
 
 }
