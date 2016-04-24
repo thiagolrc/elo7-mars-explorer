@@ -1,27 +1,39 @@
 package com.elo7.marsexplorer;
 
-import static org.junit.Assert.fail;
-
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class NavigationCommandTest {
 
+	@Mock
+	private Position position;
+	@Mock
+	private Position expectedNewPosition;
+
 	@Test
-	public void executeCommandShouldFailIfResultinPositionIsNowAllowedInPlateau(){
-		fail("Not yet implemented");
+	public void LCommandDetermineNewPositionShouldRotatePostionLeft() {
+		Mockito.when(position.rotateLeft()).thenReturn(expectedNewPosition);
+		Position newPosition = NavigationCommand.L.determineNewPosition(position);
+		Assert.assertEquals(expectedNewPosition, newPosition);
 	}
 
 	@Test
-	public void executeLCommandShouldRotatePostionLeft() {
-		fail("Not yet implemented");
+	public void RCommandDetermineNewPositionShouldRotatePostionRight() {
+		Mockito.when(position.rotateRight()).thenReturn(expectedNewPosition);
+		Position newPosition = NavigationCommand.R.determineNewPosition(position);
+		Assert.assertEquals(expectedNewPosition, newPosition);
 	}
+
 	@Test
-	public void executeRCommandShouldRotatePostionRight() {
-		fail("Not yet implemented");
-	}
-	@Test
-	public void executeMCommandShouldMovePostionForward() {
-		fail("Not yet implemented");
+	public void MCommandDetermineNewPositionShouldMovePostionForward() {
+		Mockito.when(position.moveForward()).thenReturn(expectedNewPosition);
+		Position newPosition = NavigationCommand.M.determineNewPosition(position);
+		Assert.assertEquals(expectedNewPosition, newPosition);
 	}
 
 }
