@@ -17,23 +17,23 @@ public class NavigationCommandTest {
 	private Position expectedNewPosition;
 
 	@Test
-	public void LCommandDetermineNewPositionShouldRotatePostionLeft() {
+	public void LCommandCalcNewPositionShouldRotatePostionLeft() {
 		Mockito.when(position.rotateLeft()).thenReturn(expectedNewPosition);
-		Position newPosition = NavigationCommand.L.determineNewPosition(position);
+		Position newPosition = NavigationCommand.L.calcNewPosition(position);
 		Assert.assertEquals(expectedNewPosition, newPosition);
 	}
 
 	@Test
-	public void RCommandDetermineNewPositionShouldRotatePostionRight() {
+	public void RCommandCalcNewPositionShouldRotatePostionRight() {
 		Mockito.when(position.rotateRight()).thenReturn(expectedNewPosition);
-		Position newPosition = NavigationCommand.R.determineNewPosition(position);
+		Position newPosition = NavigationCommand.R.calcNewPosition(position);
 		Assert.assertEquals(expectedNewPosition, newPosition);
 	}
 
 	@Test
-	public void MCommandDetermineNewPositionShouldMovePostionForward() {
-		Mockito.when(position.moveForward()).thenReturn(expectedNewPosition);
-		Position newPosition = NavigationCommand.M.determineNewPosition(position);
+	public void MCommandCalcNewPositionShouldMovePostionForward() {
+		Mockito.when(position.move()).thenReturn(expectedNewPosition);
+		Position newPosition = NavigationCommand.M.calcNewPosition(position);
 		Assert.assertEquals(expectedNewPosition, newPosition);
 	}
 

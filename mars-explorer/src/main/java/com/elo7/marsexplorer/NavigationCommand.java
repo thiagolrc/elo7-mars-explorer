@@ -3,23 +3,23 @@ package com.elo7.marsexplorer;
 enum NavigationCommand {
 	L {
 		@Override
-		Position determineNewPosition(Position position) {
-			return position.rotateLeft();
+		Position calcNewPosition(Position from) {
+			return from.rotateLeft();
 		}
 	},
 	R {
 		@Override
-		Position determineNewPosition(Position position) {
-			return position.rotateRight();
+		Position calcNewPosition(Position from) {
+			return from.rotateRight();
 		}
 	},
 	M {
 		@Override
-		Position determineNewPosition(Position position) {
-			return position.moveForward();
+		Position calcNewPosition(Position from) {
+			return from.move();
 		}
 	};
 
-	abstract Position determineNewPosition(final Position position);
+	abstract Position calcNewPosition(final Position from);
 
 }

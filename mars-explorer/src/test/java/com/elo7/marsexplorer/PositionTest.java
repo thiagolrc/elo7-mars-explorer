@@ -7,52 +7,17 @@ import org.mockito.Mockito;
 /** Testes para {@link Position} */
 public class PositionTest {
 
+	/* Garantindo que o move vai criar um mover e delegar */
 	@Test
-	public void moveForwardWhenPointingToNorthShouldCreateNewPositionWithIncreasedYCoordinate() {
-		Position p = new Position(3, 3, CardinalDirection.N);
+	public void moveShouldCreatePositionMoverAndMoveTowardsDirection() {
+		Position partialMock = Mockito.mock(Position.class);
+		Mockito.when(partialMock.move()).thenCallRealMethod();
+		PositionMover mover = Mockito.mock(PositionMover.class);
+		Position newPosition = Mockito.mock(Position.class);
+		Mockito.when(mover.moveTowardsDirection()).thenReturn(newPosition);
+		Mockito.when(partialMock.positionMover()).thenReturn(mover);
 
-		Position newPostion = p.moveForward();
-
-		Assert.assertNotEquals(p, newPostion);
-		Assert.assertEquals(3, newPostion.getX());
-		Assert.assertEquals(4, newPostion.getY());
-		Assert.assertEquals(CardinalDirection.N, newPostion.getDirection());
-	}
-
-	@Test
-	public void moveForwardWhenPointingToSouthShouldCreateNewPositionWithDecreasedYCoordinate() {
-		Position p = new Position(3, 3, CardinalDirection.S);
-
-		Position newPostion = p.moveForward();
-
-		Assert.assertNotEquals(p, newPostion);
-		Assert.assertEquals(3, newPostion.getX());
-		Assert.assertEquals(2, newPostion.getY());
-		Assert.assertEquals(CardinalDirection.S, newPostion.getDirection());
-	}
-
-	@Test
-	public void moveForwardWhenPointingToEastShouldCreateNewPositionWithIncreasedXCoordinate() {
-		Position p = new Position(3, 3, CardinalDirection.E);
-
-		Position newPostion = p.moveForward();
-
-		Assert.assertNotEquals(p, newPostion);
-		Assert.assertEquals(4, newPostion.getX());
-		Assert.assertEquals(3, newPostion.getY());
-		Assert.assertEquals(CardinalDirection.E, newPostion.getDirection());
-	}
-
-	@Test
-	public void moveForwardWhenPointingToWestShouldCreateNewPositionWithDecreasedXCoordinate() {
-		Position p = new Position(3, 3, CardinalDirection.W);
-
-		Position newPostion = p.moveForward();
-
-		Assert.assertNotEquals(p, newPostion);
-		Assert.assertEquals(2, newPostion.getX());
-		Assert.assertEquals(3, newPostion.getY());
-		Assert.assertEquals(CardinalDirection.W, newPostion.getDirection());
+		Assert.assertEquals(newPosition, partialMock.move());
 	}
 
 	@Test

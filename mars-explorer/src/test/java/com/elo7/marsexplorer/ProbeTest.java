@@ -37,7 +37,7 @@ public class ProbeTest {
 	public void executeCommandShouldDetermineNewPositionValidateItAndModifyProbesPosition() {
 		NavigationCommand c = Mockito.mock(NavigationCommand.class);
 		Position expectedPosition = Mockito.mock(Position.class);
-		Mockito.when(c.determineNewPosition(position)).thenReturn(expectedPosition);
+		Mockito.when(c.calcNewPosition(position)).thenReturn(expectedPosition);
 
 		Position newPosition = probe.executeCommand(c);
 
@@ -49,7 +49,7 @@ public class ProbeTest {
 	public void executeCommandShouldFailWithoutModifyingCurrentPositionIfNewPositionIsNotAllowedOnPlateau() {
 		NavigationCommand c = Mockito.mock(NavigationCommand.class);
 		Position expectedPosition = Mockito.mock(Position.class);
-		Mockito.when(c.determineNewPosition(position)).thenReturn(expectedPosition);
+		Mockito.when(c.calcNewPosition(position)).thenReturn(expectedPosition);
 		Mockito.when(plateau.isPositionValid(expectedPosition)).thenReturn(false);
 
 		try {

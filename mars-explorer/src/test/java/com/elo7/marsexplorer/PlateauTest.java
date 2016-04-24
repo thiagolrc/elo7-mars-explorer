@@ -1,7 +1,6 @@
 package com.elo7.marsexplorer;
 
 import static com.elo7.marsexplorer.CardinalDirection.N;
-import static org.junit.Assert.fail;
 
 import org.junit.Assert;
 import org.junit.Test;

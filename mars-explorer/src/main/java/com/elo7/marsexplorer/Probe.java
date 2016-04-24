@@ -33,7 +33,7 @@ class Probe {
 	 *             exploração a que ela pertence.
 	 */
 	Position executeCommand(final NavigationCommand navigationCommand) throws IllegalArgumentException {
-		Position newPosition = navigationCommand.determineNewPosition(position);
+		Position newPosition = navigationCommand.calcNewPosition(position);
 		validatePositionOnPlateau(newPosition);
 		this.position = newPosition;
 		return position;
