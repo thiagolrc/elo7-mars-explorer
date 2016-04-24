@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+/** Testes para {@link NavigationCommand} */
 @RunWith(MockitoJUnitRunner.class)
 public class NavigationCommandTest {
 
