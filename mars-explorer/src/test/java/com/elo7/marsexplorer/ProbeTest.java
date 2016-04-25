@@ -61,8 +61,7 @@ public class ProbeTest {
 	}
 
 	/*
-	 * Ao executar vários comandos de uma vez, deve delegar para a execução de 1
-	 * comando simples, na sequência em que são recebidos
+	 * Ao executar vários comandos de uma vez, deve delegar para a execução de 1 comando simples, na sequência em que são recebidos
 	 */
 	@Test
 	public void executeCommandsShouldExecuteAllCommandsIndividually() {

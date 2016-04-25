@@ -7,8 +7,7 @@ import org.junit.Test;
 public class PositionMoverTest {
 
 	/*
-	 * Para garantir que toda direção cardinal terá uma implementação de
-	 * PositionMover
+	 * Para garantir que toda direção cardinal terá uma implementação de PositionMover
 	 */
 	@Test
 	public void ofShouldBeImplementedForAllCardinalDirections() {
@@ -16,7 +15,7 @@ public class PositionMoverTest {
 			Assert.assertNotNull(PositionMover.of(new Position(1, 2, d)));
 		}
 	}
-	
+
 	@Test
 	public void ofPositionPointingNorthShouldCreateNewPositionIncreasingYCoordinate() {
 		Position p = new Position(3, 3, CardinalDirection.N);

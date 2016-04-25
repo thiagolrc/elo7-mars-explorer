@@ -1,6 +1,9 @@
 package com.elo7.marsexplorer;
 
-//TODO Para pensar: a única função do planalto seria para delimitar o plano de navegação da sonda? Não vejo outra aplicação/necessidade por eqt.
+/**
+ * Planalto/área onde as sondas serão implantadas e navegarão
+ *
+ */
 class Plateau {
 
 	private final int x;
@@ -12,7 +15,12 @@ class Plateau {
 		this.y = y;
 	}
 
-	/** Determina se uma data posição está dentro do planalto especificado **/
+	/**
+	 * Determina se uma dada posição está dentro do planalto especificado
+	 * 
+	 * @param position
+	 *            {@link Position} a ser validada
+	 **/
 	boolean isPositionValid(final Position position) {
 		return (position.getX() >= 0 && position.getY() >= 0 && position.getX() <= x && position.getY() <= y);
 	}

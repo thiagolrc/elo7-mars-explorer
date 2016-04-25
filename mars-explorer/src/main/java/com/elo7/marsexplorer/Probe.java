@@ -24,13 +24,11 @@ class Probe {
 	}
 
 	/**
-	 * Executa um {@link NavigationCommand} e altera a posição da sonda conforme
-	 * o comando
+	 * Executa um {@link NavigationCommand} e altera a posição da sonda conforme o comando
 	 * 
 	 * @return {@link Position} representando a FS nova localização da câmera
 	 * @throws IllegalArgumentException
-	 *             caso o comando tente navegar a sonda para fora do planalto de
-	 *             exploração a que ela pertence.
+	 *             caso o comando tente navegar a sonda para fora do planalto de exploração a que ela pertence.
 	 */
 	Position executeCommand(final NavigationCommand navigationCommand) throws IllegalArgumentException {
 		Position newPosition = navigationCommand.calcNewPosition(position);
@@ -40,8 +38,7 @@ class Probe {
 	}
 
 	/**
-	 * Executa um conjunto de {@link NavigationCommand}, recalculando, validando
-	 * e alterando a posição da sonda a cada comando.
+	 * Executa um conjunto de {@link NavigationCommand}, recalculando, validando e alterando a posição da sonda a cada comando.
 	 */
 	Position executeCommands(final List<NavigationCommand> navigationCommands) {
 		navigationCommands.stream().forEach(c -> this.executeCommand(c));

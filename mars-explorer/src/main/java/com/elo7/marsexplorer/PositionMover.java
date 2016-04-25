@@ -1,9 +1,26 @@
 package com.elo7.marsexplorer;
 
+/**
+ * 
+ * Movimentador de {@link Position} na direção de sua {@link CardinalDirection}.
+ *
+ */
 public interface PositionMover {
 
+	/**
+	 * Move uma {@link Position} na direção de sua {@link CardinalDirection}
+	 * 
+	 * @return Nova {@link Position} com novas coordenadas recalculadas
+	 */
 	Position moveTowardsDirection();
 
+	/**
+	 * Cria um movimentador específico para cada posição, baseando-se nas suas coordenadas e {@link CardinalDirection}.
+	 * 
+	 * @param p
+	 *            {@link Position} para a qual o movimentador deve ser criado
+	 * @return {@link PositionMover} capaz de mover corretamete o a posição em questão
+	 */
 	public static PositionMover of(Position p) {
 		switch (p.getDirection()) {
 		case N:

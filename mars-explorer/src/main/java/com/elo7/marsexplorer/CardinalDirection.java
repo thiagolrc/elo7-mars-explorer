@@ -1,6 +1,15 @@
 package com.elo7.marsexplorer;
 
+/**
+ * Pontos/direções cardinais.
+ * <p>
+ * Seqüencia no sentido horário: {@link CardinalDirection#N}, {@link CardinalDirection#E},{@link CardinalDirection#S}, {@link CardinalDirection#W} (Rosa dos Ventos)
+ * </p>
+ */
 enum CardinalDirection {
+	/**
+	 * Norte
+	 */
 	N {
 		@Override
 		CardinalDirection rotateLeft() {
@@ -12,6 +21,9 @@ enum CardinalDirection {
 			return E;
 		}
 	},
+	/**
+	 * Leste
+	 */
 	E {
 		@Override
 		CardinalDirection rotateLeft() {
@@ -23,6 +35,9 @@ enum CardinalDirection {
 			return S;
 		}
 	},
+	/**
+	 * Sul
+	 */
 	S {
 		@Override
 		CardinalDirection rotateLeft() {
@@ -34,6 +49,9 @@ enum CardinalDirection {
 			return W;
 		}
 	},
+	/**
+	 * Oeste
+	 */
 	W {
 		@Override
 		CardinalDirection rotateLeft() {
@@ -46,7 +64,17 @@ enum CardinalDirection {
 		}
 	};
 
+	/**
+	 * Gira a direção cardinal no sentido anti-horário
+	 * 
+	 * @return {@link CardinalDirection} apontando para direção à esquerda(no sentido anti-horário) da posição atual
+	 */
 	abstract CardinalDirection rotateLeft();
 
+	/**
+	 * Gira a direção cardinal no sentido horário
+	 * 
+	 * @return {@link CardinalDirection} apontando para a direção à direita(no sentido horário) da posição atual
+	 */
 	abstract CardinalDirection rotateRight();
 }
