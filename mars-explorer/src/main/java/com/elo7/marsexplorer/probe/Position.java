@@ -1,13 +1,20 @@
 package com.elo7.marsexplorer.probe;
 
+import javax.persistence.Embeddable;
+
 /** Posição da sonda: coordenadas + direção */
-class Position {
+@Embeddable
+public class Position {
 
-	private final int x;
-	private final int y;
-	private final CardinalDirection direction;
+	private int x;
+	private int y;
+	private CardinalDirection direction;
+	
+	public Position(){
+		
+	}
 
-	Position(final int x, final int y, final CardinalDirection direction) {
+	public Position(final int x, final int y, final CardinalDirection direction) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -46,7 +53,7 @@ class Position {
 	 * 
 	 * @return Coordenada do eixo X da posição
 	 */
-	int getX() {
+	public int getX() {
 		return x;
 	}
 
@@ -54,7 +61,7 @@ class Position {
 	 * 
 	 * @return Coordenada do eixo Y da posição
 	 */
-	int getY() {
+	public int getY() {
 		return y;
 	}
 
@@ -71,7 +78,7 @@ class Position {
 	 * 
 	 * @return {@link CardinalDirection} para onde aponta a posição
 	 */
-	CardinalDirection getDirection() {
+	public CardinalDirection getDirection() {
 		return direction;
 	}
 

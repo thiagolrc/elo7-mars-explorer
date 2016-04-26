@@ -6,7 +6,7 @@ package com.elo7.marsexplorer.probe;
  * Seqüencia no sentido horário: {@link CardinalDirection#N}, {@link CardinalDirection#E},{@link CardinalDirection#S}, {@link CardinalDirection#W} (Rosa dos Ventos)
  * </p>
  */
-enum CardinalDirection {
+public enum CardinalDirection {
 	/**
 	 * Norte
 	 */

@@ -10,7 +10,7 @@ package com.elo7.marsexplorer.probe;
  * </p>
  *
  */
-enum NavigationCommand {
+public enum NavigationCommand {
 	L {
 		@Override
 		Position calcNewPosition(Position from) {

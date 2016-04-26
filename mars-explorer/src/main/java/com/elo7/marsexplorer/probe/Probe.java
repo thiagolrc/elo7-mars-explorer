@@ -2,11 +2,28 @@ package com.elo7.marsexplorer.probe;
 
 import java.util.List;
 
-/** Sonda em Marte. Inicia em uma posição e recebe comandos de navegação */
-class Probe {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
+/** Sonda em Marte. Inicia em uma posição e recebe comandos de navegação */
+@Entity
+public class Probe {
+
+	@Id
+	@GeneratedValue
+	private int id;
 	private Position position;
-	private final Plateau plateau;
+	@ManyToOne(optional=false)
+	private Plateau plateau;
+
+	public Probe() {
+	}
+
+	public int getId() {
+		return id;
+	}
 
 	// TODO Sera q nao faz mais sentido o plateau fazer parte da posicao ou
 	// coisa parecida?
@@ -17,7 +34,7 @@ class Probe {
 	 * @throws IllegalArgumentException
 	 *             ao tentar criar uma sonda fora da área do planalto
 	 */
-	Probe(final Position position, final Plateau plateau) throws IllegalArgumentException {
+	public Probe(final Position position, final Plateau plateau) throws IllegalArgumentException {
 		this.plateau = plateau;
 		validatePositionOnPlateau(position);
 		this.position = position;
@@ -48,8 +65,16 @@ class Probe {
 	/**
 	 * @return {@link Position} atual da sonda.
 	 */
-	Position getPosition() {
+	public Position getPosition() {
 		return position;
+	}
+
+	/***
+	 * 
+	 * @return {@link Plateau} no qual a sonda foi instalada
+	 */
+	public Plateau getPlateau() {
+		return plateau;
 	}
 
 	private void validatePositionOnPlateau(final Position position) throws IllegalArgumentException {
