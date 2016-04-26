@@ -11,17 +11,17 @@ import com.elo7.marsexplorer.Application;
 import com.elo7.marsexplorer.probe.Plateau;
 
 /**
- * Tetes para {@link PlateauRepo}
+ * Tetes para {@link PlateauRepository}
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(Application.class)
-public class PlateauRepoTest {
+public class PlateauRepositoryTest {
 
 	@Autowired
-	private PlateauRepo plateauRepo;
+	private PlateauRepository plateauRepo;
 
 	@Test
-	public void saveShouldAssignId() {
+	public void saveShouldAssignIdAndPersitProperties() {
 		Plateau savedPlateau = plateauRepo.save(new Plateau(2, 3));
 		Assert.assertTrue(savedPlateau.getId() > 0);
 		Assert.assertEquals(2, savedPlateau.getX());
