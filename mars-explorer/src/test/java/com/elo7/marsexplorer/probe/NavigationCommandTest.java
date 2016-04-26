@@ -1,4 +1,4 @@
-package com.elo7.marsexplorer;
+package com.elo7.marsexplorer.probe;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -6,6 +6,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import com.elo7.marsexplorer.probe.NavigationCommand;
+import com.elo7.marsexplorer.probe.Position;
 
 /** Testes para {@link NavigationCommand} */
 @RunWith(MockitoJUnitRunner.class)

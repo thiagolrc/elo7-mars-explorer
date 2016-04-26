@@ -1,8 +1,8 @@
-package com.elo7.marsexplorer;
+package com.elo7.marsexplorer.probe;
 
-import static com.elo7.marsexplorer.NavigationCommand.L;
-import static com.elo7.marsexplorer.NavigationCommand.M;
-import static com.elo7.marsexplorer.NavigationCommand.R;
+import static com.elo7.marsexplorer.probe.NavigationCommand.L;
+import static com.elo7.marsexplorer.probe.NavigationCommand.M;
+import static com.elo7.marsexplorer.probe.NavigationCommand.R;
 
 import java.util.Arrays;
 
@@ -15,6 +15,12 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import com.elo7.marsexplorer.probe.CardinalDirection;
+import com.elo7.marsexplorer.probe.NavigationCommand;
+import com.elo7.marsexplorer.probe.Plateau;
+import com.elo7.marsexplorer.probe.Position;
+import com.elo7.marsexplorer.probe.Probe;
 
 /** Testes para {@link Probe} */
 @RunWith(MockitoJUnitRunner.class)

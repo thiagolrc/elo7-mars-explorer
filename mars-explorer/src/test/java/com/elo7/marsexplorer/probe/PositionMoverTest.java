@@ -1,7 +1,11 @@
-package com.elo7.marsexplorer;
+package com.elo7.marsexplorer.probe;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.elo7.marsexplorer.probe.CardinalDirection;
+import com.elo7.marsexplorer.probe.Position;
+import com.elo7.marsexplorer.probe.PositionMover;
 
 /** Testes para {@link PositionMover} */
 public class PositionMoverTest {

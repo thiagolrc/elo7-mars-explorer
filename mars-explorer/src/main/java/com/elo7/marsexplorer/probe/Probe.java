@@ -1,4 +1,4 @@
-package com.elo7.marsexplorer;
+package com.elo7.marsexplorer.probe;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.elo7.marsexplorer;
+package com.elo7.marsexplorer.probe;
 
 /**
  * Pontos/direções cardinais.

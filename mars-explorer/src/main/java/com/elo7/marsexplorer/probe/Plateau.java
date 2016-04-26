@@ -1,15 +1,15 @@
-package com.elo7.marsexplorer;
+package com.elo7.marsexplorer.probe;
 
 /**
  * Planalto/área onde as sondas serão implantadas e navegarão
  *
  */
-class Plateau {
+public class Plateau {
 
 	private final int x;
 	private final int y;
 
-	Plateau(final int x, final int y) {
+	public Plateau(final int x, final int y) {
 		super();
 		this.x = x;
 		this.y = y;
