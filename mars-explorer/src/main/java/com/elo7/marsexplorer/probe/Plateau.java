@@ -16,7 +16,7 @@ public class Plateau implements Serializable {
 
 	@Id
 	@GeneratedValue
-	private int id;
+	private int id;//TODO notnull + testes
 	private int x;
 	private int y;
 

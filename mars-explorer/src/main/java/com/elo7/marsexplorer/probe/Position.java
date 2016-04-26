@@ -5,7 +5,7 @@ import javax.persistence.Embeddable;
 /** Posição da sonda: coordenadas + direção */
 @Embeddable
 public class Position {
-
+//TODO validacao de notnull + testes
 	private int x;
 	private int y;
 	private CardinalDirection direction;

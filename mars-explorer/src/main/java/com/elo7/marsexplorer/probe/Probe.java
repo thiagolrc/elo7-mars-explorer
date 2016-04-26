@@ -14,7 +14,7 @@ public class Probe {
 	@Id
 	@GeneratedValue
 	private int id;
-	private Position position;
+	private Position position;//TODO notNull +  testes
 	@ManyToOne(optional=false)
 	private Plateau plateau;
 
