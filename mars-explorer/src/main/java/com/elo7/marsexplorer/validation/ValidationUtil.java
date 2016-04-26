@@ -8,6 +8,7 @@ import com.elo7.marsexplorer.exception.ResourceNotFoundException;
 public class ValidationUtil {
 
 	public void ensureExistence(Object resource) throws ResourceNotFoundException {
-		throw new UnsupportedOperationException("not yet implemented");
+		if (resource == null)
+			throw new ResourceNotFoundException();
 	}
 }
