@@ -14,8 +14,8 @@ public class Probe {
 	@Id
 	@GeneratedValue
 	private int id;
-	private Position position;//TODO notNull +  testes
-	@ManyToOne(optional=false)
+	private Position position;// TODO notNull + testes
+	@ManyToOne(optional = false)
 	private Plateau plateau;
 
 	public Probe() {
@@ -23,6 +23,18 @@ public class Probe {
 
 	public int getId() {
 		return id;
+	}
+
+	/**
+	 * @param id
+	 * @param position
+	 * @param plateau
+	 * @throws IllegalArgumentException
+	 *             ao tentar criar uma sonda fora da área do planalto
+	 */
+	public Probe(final int id, final Position position, final Plateau plateau) throws IllegalArgumentException {
+		this(position, plateau);
+		this.id = id;
 	}
 
 	// TODO Sera q nao faz mais sentido o plateau fazer parte da posicao ou
