@@ -2,13 +2,20 @@ package com.elo7.marsexplorer.probe;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Planalto/área onde as sondas serão implantadas e navegarão
  *
  */
+@Entity
 public class Plateau implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue
 	private int id;
 	private int x;
 	private int y;
@@ -22,7 +29,7 @@ public class Plateau implements Serializable {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	/**
 	 * Determina se uma dada posição está dentro do planalto especificado
 	 * 
