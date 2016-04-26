@@ -5,7 +5,7 @@ package com.elo7.marsexplorer.probe;
  * Movimentador de {@link Position} na direção de sua {@link CardinalDirection}.
  *
  */
-public interface PositionMover {
+interface PositionMover {
 
 	/**
 	 * Move uma {@link Position} na direção de sua {@link CardinalDirection}
@@ -21,7 +21,7 @@ public interface PositionMover {
 	 *            {@link Position} para a qual o movimentador deve ser criado
 	 * @return {@link PositionMover} capaz de mover corretamete o a posição em questão
 	 */
-	public static PositionMover of(Position p) {
+	static PositionMover of(Position p) {
 		switch (p.getDirection()) {
 		case N:
 			return (() -> new Position(p.getX(), p.getY() + 1, p.getDirection()));
