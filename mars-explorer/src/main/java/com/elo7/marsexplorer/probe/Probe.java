@@ -69,7 +69,7 @@ public class Probe {
 	/**
 	 * Executa um conjunto de {@link NavigationCommand}, recalculando, validando e alterando a posição da sonda a cada comando.
 	 */
-	Position executeCommands(final List<NavigationCommand> navigationCommands) {
+	public Position executeCommands(final List<NavigationCommand> navigationCommands) {
 		navigationCommands.stream().forEach(c -> this.executeCommand(c));
 		return position;
 	}

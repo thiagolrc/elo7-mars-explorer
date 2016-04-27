@@ -1,8 +1,14 @@
 package com.elo7.marsexplorer.controller;
 
+import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InOrder;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -21,6 +27,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.elo7.marsexplorer.Application;
 import com.elo7.marsexplorer.converter.ProbeConverter;
 import com.elo7.marsexplorer.probe.CardinalDirection;
+import com.elo7.marsexplorer.probe.CommandSequenceDTO;
+import com.elo7.marsexplorer.probe.NavigationCommand;
 import com.elo7.marsexplorer.probe.Plateau;
 import com.elo7.marsexplorer.probe.Probe;
 import com.elo7.marsexplorer.probe.ProbeDTO;
@@ -29,6 +37,10 @@ import com.elo7.marsexplorer.repository.ProbeRepository;
 import com.elo7.marsexplorer.validation.ValidationUtil;
 import com.google.gson.Gson;
 
+/**
+ * Teste para {@link Controller}
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
@@ -46,6 +58,8 @@ public class ControllerTest {
 	private ValidationUtil validationUtil;
 	@Mock
 	private ProbeConverter probeConverter;
+	@Captor
+	private ArgumentCaptor<List<NavigationCommand>> argumentCaptor;
 
 	@Before
 	public void setup() {
@@ -88,6 +102,8 @@ public class ControllerTest {
 		savedDto.setDirection(CardinalDirection.N);
 		Mockito.when(probeRepository.save(probe)).thenReturn(probe);
 		Mockito.when(probeConverter.toDTO(Matchers.eq(probe))).thenReturn(savedDto);
+		
+		InOrder order = Mockito.inOrder(validationUtil,probeRepository);
 
 		ProbeDTO probeDto = new ProbeDTO();
 		probeDto.setX(2);
@@ -103,6 +119,36 @@ public class ControllerTest {
 		result.andExpect(MockMvcResultMatchers.jsonPath("$.y", org.hamcrest.Matchers.is(3)));
 		result.andExpect(MockMvcResultMatchers.jsonPath("$.direction", org.hamcrest.Matchers.is("N")));
 
+		order.verify(validationUtil).ensureExistence(plateau);
+		order.verify(probeRepository).save(probe);
 	}
 
+	@Test
+	public void postCommandSequenceShouldLoadPlateauAndProbeVerifyTheirExistenceAndExecuteCommands() throws Exception {
+		Plateau plateau = new Plateau();
+		Mockito.when(plateauRepository.findOne(1)).thenReturn(plateau);
+		Probe probe = Mockito.mock(Probe.class);
+		Mockito.when(probe.getPlateau()).thenReturn(plateau);
+		Mockito.when(probeRepository.findOne(2)).thenReturn(probe);
+		
+		InOrder order = Mockito.inOrder(validationUtil,probe,probeRepository);
+
+		CommandSequenceDTO commands = new CommandSequenceDTO();
+		commands.getCommands().add(NavigationCommand.L);
+		String json = gson.toJson(commands);
+		MockHttpServletRequestBuilder post = MockMvcRequestBuilders.post("/plateaus/1/probes/2/command-sequence").contentType("application/json;charset=UTF-8").content(json);
+		ResultActions result = this.mockMvc.perform(post);
+		result.andExpect(MockMvcResultMatchers.status().isOk());
+		result.andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"));
+		result.andExpect(MockMvcResultMatchers.jsonPath("$.commands[0]", org.hamcrest.Matchers.is("L")));
+
+		order.verify(validationUtil).ensureExistence(plateau);
+		order.verify(validationUtil).ensureExistence(probe);
+		order.verify(validationUtil).ensureTrue(true);
+		order.verify(probe).executeCommands(argumentCaptor.capture());
+		order.verify(probeRepository).save(probe);
+
+		Assert.assertEquals(1, argumentCaptor.getValue().size());
+		Assert.assertEquals(NavigationCommand.L, argumentCaptor.getValue().get(0));
+	}
 }
