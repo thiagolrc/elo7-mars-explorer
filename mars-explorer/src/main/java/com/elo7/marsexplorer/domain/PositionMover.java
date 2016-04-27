@@ -1,4 +1,4 @@
-package com.elo7.marsexplorer.probe;
+package com.elo7.marsexplorer.domain;
 
 /**
  * 

@@ -9,10 +9,10 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.elo7.marsexplorer.Application;
-import com.elo7.marsexplorer.probe.CardinalDirection;
-import com.elo7.marsexplorer.probe.Plateau;
-import com.elo7.marsexplorer.probe.Position;
-import com.elo7.marsexplorer.probe.Probe;
+import com.elo7.marsexplorer.domain.CardinalDirection;
+import com.elo7.marsexplorer.domain.Plateau;
+import com.elo7.marsexplorer.domain.Position;
+import com.elo7.marsexplorer.domain.Probe;
 
 /**
  * Tetes para {@link ProbeRepository}

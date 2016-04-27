@@ -26,12 +26,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.elo7.marsexplorer.Application;
 import com.elo7.marsexplorer.converter.ProbeConverter;
-import com.elo7.marsexplorer.probe.CardinalDirection;
-import com.elo7.marsexplorer.probe.CommandSequenceDTO;
-import com.elo7.marsexplorer.probe.NavigationCommand;
-import com.elo7.marsexplorer.probe.Plateau;
-import com.elo7.marsexplorer.probe.Probe;
-import com.elo7.marsexplorer.probe.ProbeDTO;
+import com.elo7.marsexplorer.domain.CardinalDirection;
+import com.elo7.marsexplorer.domain.NavigationCommand;
+import com.elo7.marsexplorer.domain.Plateau;
+import com.elo7.marsexplorer.domain.Probe;
+import com.elo7.marsexplorer.dto.CommandSequenceDTO;
+import com.elo7.marsexplorer.dto.ProbeDTO;
 import com.elo7.marsexplorer.repository.PlateauRepository;
 import com.elo7.marsexplorer.repository.ProbeRepository;
 import com.elo7.marsexplorer.validation.ValidationUtil;

@@ -3,11 +3,11 @@ package com.elo7.marsexplorer.converter;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.elo7.marsexplorer.probe.CardinalDirection;
-import com.elo7.marsexplorer.probe.Plateau;
-import com.elo7.marsexplorer.probe.Position;
-import com.elo7.marsexplorer.probe.Probe;
-import com.elo7.marsexplorer.probe.ProbeDTO;
+import com.elo7.marsexplorer.domain.CardinalDirection;
+import com.elo7.marsexplorer.domain.Plateau;
+import com.elo7.marsexplorer.domain.Position;
+import com.elo7.marsexplorer.domain.Probe;
+import com.elo7.marsexplorer.dto.ProbeDTO;
 
 public class ProbeConverterTest {
 

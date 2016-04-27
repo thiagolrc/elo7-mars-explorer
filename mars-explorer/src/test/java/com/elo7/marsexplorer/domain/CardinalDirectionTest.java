@@ -1,14 +1,12 @@
-package com.elo7.marsexplorer.probe;
+package com.elo7.marsexplorer.domain;
 
-import static com.elo7.marsexplorer.probe.CardinalDirection.E;
-import static com.elo7.marsexplorer.probe.CardinalDirection.N;
-import static com.elo7.marsexplorer.probe.CardinalDirection.S;
-import static com.elo7.marsexplorer.probe.CardinalDirection.W;
+import static com.elo7.marsexplorer.domain.CardinalDirection.E;
+import static com.elo7.marsexplorer.domain.CardinalDirection.N;
+import static com.elo7.marsexplorer.domain.CardinalDirection.S;
+import static com.elo7.marsexplorer.domain.CardinalDirection.W;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.elo7.marsexplorer.probe.CardinalDirection;
 
 /** Testes para {@link CardinalDirection} */
 public class CardinalDirectionTest {

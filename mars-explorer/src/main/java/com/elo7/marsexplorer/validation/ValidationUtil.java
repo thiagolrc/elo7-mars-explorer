@@ -13,7 +13,7 @@ public class ValidationUtil {
 		}
 	}
 	
-	public void ensureTrue(boolean condition) throws InvalidResourceException {
+	public void ensureTrue(boolean condition) throws InvalidResourceException {//FIXME horrendo
 		if (!condition){
 			throw new InvalidResourceException();
 		}

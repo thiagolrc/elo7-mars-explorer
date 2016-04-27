@@ -1,7 +1,9 @@
-package com.elo7.marsexplorer.probe;
+package com.elo7.marsexplorer.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.elo7.marsexplorer.domain.NavigationCommand;
 
 public class CommandSequenceDTO {
 

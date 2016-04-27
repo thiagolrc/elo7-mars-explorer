@@ -1,12 +1,9 @@
-package com.elo7.marsexplorer.probe;
+package com.elo7.marsexplorer.domain;
 
-import static com.elo7.marsexplorer.probe.CardinalDirection.N;
+import static com.elo7.marsexplorer.domain.CardinalDirection.N;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.elo7.marsexplorer.probe.Plateau;
-import com.elo7.marsexplorer.probe.Position;
 
 /** Testes para {@link Plateau} */
 public class PlateauTest {

@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elo7.marsexplorer.converter.ProbeConverter;
-import com.elo7.marsexplorer.probe.CommandSequenceDTO;
-import com.elo7.marsexplorer.probe.Plateau;
-import com.elo7.marsexplorer.probe.Probe;
-import com.elo7.marsexplorer.probe.ProbeDTO;
+import com.elo7.marsexplorer.domain.Plateau;
+import com.elo7.marsexplorer.domain.Probe;
+import com.elo7.marsexplorer.dto.CommandSequenceDTO;
+import com.elo7.marsexplorer.dto.ProbeDTO;
 import com.elo7.marsexplorer.repository.PlateauRepository;
 import com.elo7.marsexplorer.repository.ProbeRepository;
 import com.elo7.marsexplorer.validation.ValidationUtil;

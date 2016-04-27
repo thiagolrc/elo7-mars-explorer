@@ -8,7 +8,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.elo7.marsexplorer.Application;
-import com.elo7.marsexplorer.probe.Plateau;
+import com.elo7.marsexplorer.domain.Plateau;
 
 /**
  * Tetes para {@link PlateauRepository}

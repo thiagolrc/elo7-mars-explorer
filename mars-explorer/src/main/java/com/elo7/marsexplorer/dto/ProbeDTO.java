@@ -1,4 +1,6 @@
-package com.elo7.marsexplorer.probe;
+package com.elo7.marsexplorer.dto;
+
+import com.elo7.marsexplorer.domain.CardinalDirection;
 
 public class ProbeDTO {
 	private int id;// TODO notnull + testes
