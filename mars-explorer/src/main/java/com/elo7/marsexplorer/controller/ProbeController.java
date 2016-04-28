@@ -3,6 +3,8 @@ package com.elo7.marsexplorer.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,7 +48,7 @@ public class ProbeController {
 	 */
 	@RequestMapping(value = "/probes", method = RequestMethod.POST)
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public ProbeDTO postProbe(@PathVariable("plateauId") int plateauId, @RequestBody ProbeDTO probe) {
+	public ProbeDTO postProbe(@PathVariable("plateauId") int plateauId, @RequestBody @Valid ProbeDTO probe) {
 		Plateau plateau = plateuController.getPlateau(plateauId);
 
 		Probe probeToSave = probeConverter.fromDTO(probe, plateau);

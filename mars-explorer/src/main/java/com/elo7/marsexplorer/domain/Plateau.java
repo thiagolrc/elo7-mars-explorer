@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 /**
  * Planalto/área onde as sondas serão implantadas e navegarão
@@ -16,8 +18,12 @@ public class Plateau implements Serializable {
 
 	@Id
 	@GeneratedValue
-	private int id;//TODO notnull + testes
+	@Max(0)
+	@Min(0) // quando tivermos o PUT teremos que criar grupos de validações para separa pois no PUT deve ser não nulo
+	private int id;
+	@Min(1)
 	private int x;
+	@Min(1)
 	private int y;
 
 	public Plateau() {

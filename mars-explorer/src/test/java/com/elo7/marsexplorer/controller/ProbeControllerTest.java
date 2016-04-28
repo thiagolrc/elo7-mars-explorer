@@ -177,4 +177,17 @@ public class ProbeControllerTest {
 		Assert.assertEquals(1, argumentCaptor.getValue().size());
 		Assert.assertEquals(NavigationCommand.L, argumentCaptor.getValue().get(0));
 	}
+	
+	@Test
+	public void postInvalidProbeShouldFail() throws Exception{
+		//garante que o @Valid esta sendo aplicado
+		ProbeDTO probeDto = new ProbeDTO();
+		probeDto.setX(-1);
+		probeDto.setY(3);
+		probeDto.setDirection(CardinalDirection.N);
+		String json = gson.toJson(probeDto);
+		MockHttpServletRequestBuilder post = MockMvcRequestBuilders.post("/plateaus/1/probes").contentType("application/json;charset=UTF-8").content(json);
+		ResultActions result = this.mockMvc.perform(post);
+		result.andExpect(MockMvcResultMatchers.status().isBadRequest());
+	}
 }

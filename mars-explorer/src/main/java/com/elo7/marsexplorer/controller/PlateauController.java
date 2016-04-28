@@ -2,6 +2,8 @@ package com.elo7.marsexplorer.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +41,7 @@ public class PlateauController {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public Plateau postPlateau(@RequestBody Plateau plateau) {
+	public Plateau postPlateau(@RequestBody @Valid Plateau plateau) {
 		return plateauRepository.save(plateau);
 	}
 

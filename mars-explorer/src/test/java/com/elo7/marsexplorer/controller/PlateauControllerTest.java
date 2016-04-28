@@ -57,7 +57,7 @@ public class PlateauControllerTest {
 	@Test
 	public void postPlateauShouldSavePlateauAndReturnSavedObject() throws Exception {
 		Plateau plateau = new Plateau(3, 4);
-		ReflectionTestUtils.setField(plateau, "id", 1);
+		ReflectionTestUtils.setField(plateau, "id", 0);
 		Mockito.when(plateauRepository.save(Matchers.any(Plateau.class))).thenReturn(plateau);
 
 		String json = gson.toJson(plateau);
@@ -65,7 +65,7 @@ public class PlateauControllerTest {
 		ResultActions result = this.mockMvc.perform(post);
 		result.andExpect(MockMvcResultMatchers.status().isCreated());
 		result.andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"));
-		result.andExpect(MockMvcResultMatchers.jsonPath("$.id", org.hamcrest.Matchers.is(1)));
+		result.andExpect(MockMvcResultMatchers.jsonPath("$.id", org.hamcrest.Matchers.is(0)));
 		result.andExpect(MockMvcResultMatchers.jsonPath("$.x", org.hamcrest.Matchers.is(3)));
 		result.andExpect(MockMvcResultMatchers.jsonPath("$.y", org.hamcrest.Matchers.is(4)));
 	}
@@ -99,6 +99,18 @@ public class PlateauControllerTest {
 		result.andExpect(MockMvcResultMatchers.jsonPath("$[0].id", org.hamcrest.Matchers.is(1)));
 		result.andExpect(MockMvcResultMatchers.jsonPath("$[0].x", org.hamcrest.Matchers.is(3)));
 		result.andExpect(MockMvcResultMatchers.jsonPath("$[0].y", org.hamcrest.Matchers.is(4)));
+	}
+
+	@Test
+	public void postInvalidPlateuShouldFail() throws Exception {
+		// garante que o @Valid está sendo aplicado
+		Plateau plateau = new Plateau(0, 0);
+		ReflectionTestUtils.setField(plateau, "id", 0);
+
+		String json = gson.toJson(plateau);
+		MockHttpServletRequestBuilder post = MockMvcRequestBuilders.post("/plateaus").contentType("application/json;charset=UTF-8").content(json);
+		ResultActions result = this.mockMvc.perform(post);
+		result.andExpect(MockMvcResultMatchers.status().isBadRequest());
 	}
 
 }
