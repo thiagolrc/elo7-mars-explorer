@@ -34,7 +34,6 @@ interface PositionMover {
 
 		default:
 			throw new UnsupportedOperationException("Direção cardinal não reconhecida");
-
 		}
 	}
 }

@@ -15,13 +15,15 @@ import com.elo7.marsexplorer.domain.Plateau;
 import com.elo7.marsexplorer.repository.PlateauRepository;
 import com.elo7.marsexplorer.validation.ResourceValidationUtil;
 
+/**
+ * Controller que implementas os métodos http disponíveis para o recuro {@link Plateau}
+ *
+ */
 @RestController
 @RequestMapping("/plateaus")
 public class PlateauController {
 
 	// TODO Inserir camada de validação
-
-	// TODO Tratar excecoes Illegal e resourceNotFound
 
 	@Autowired
 	private PlateauRepository plateauRepository;
@@ -29,12 +31,24 @@ public class PlateauController {
 	@Autowired
 	private ResourceValidationUtil validationUtil;
 
+	/**
+	 * Cria um {@link Plateau}
+	 * 
+	 * @param plateau
+	 * @return {@link Plateau} criado já com seu ID
+	 */
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public Plateau postPlateau(@RequestBody Plateau plateau) {
 		return plateauRepository.save(plateau);
 	}
 
+	/**
+	 * Busca o {@link Plateau} identificado pelo seu ID
+	 * 
+	 * @param plateauId
+	 * @return {@link Plateau} identificado pelo ID ou {@link HttpStatus#NOT_FOUND} caso este não exista
+	 */
 	@RequestMapping(value = "/{plateauId}", method = RequestMethod.GET)
 	@ResponseStatus(code = HttpStatus.OK)
 	public Plateau getPlateau(@PathVariable("plateauId") int plateauId) {
@@ -43,6 +57,11 @@ public class PlateauController {
 		return plateau;
 	}
 
+	/**
+	 * Lista todos os {@link Plateau} existentes
+	 * 
+	 * @return {@link List} de {@link Plateau} contendo os planaltos cadastrados ou lista vazia caso não haja cadastros
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<Plateau> getAllPlateau() {

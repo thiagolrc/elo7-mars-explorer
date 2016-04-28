@@ -3,6 +3,10 @@ package com.elo7.marsexplorer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Configuração da aplicação via SpringBoot
+ *
+ */
 @SpringBootApplication
 public class Application {
 

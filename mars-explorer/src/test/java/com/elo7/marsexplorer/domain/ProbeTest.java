@@ -16,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.elo7.marsexplorer.exception.BadRequestException;
+
 /** Testes para {@link Probe} */
 @RunWith(MockitoJUnitRunner.class)
 public class ProbeTest {
@@ -55,7 +57,7 @@ public class ProbeTest {
 		try {
 			probe.executeCommand(c);
 			Assert.fail("it was supposed to fail");
-		} catch (IllegalArgumentException e) {
+		} catch (BadRequestException e) {
 			Assert.assertEquals(position, probe.getPosition());
 		}
 	}

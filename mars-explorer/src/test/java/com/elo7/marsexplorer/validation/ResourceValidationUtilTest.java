@@ -2,13 +2,13 @@ package com.elo7.marsexplorer.validation;
 
 import org.junit.Test;
 
-import com.elo7.marsexplorer.exception.InvalidResourceException;
+import com.elo7.marsexplorer.exception.ResourceNotFoundException;
 
 public class ResourceValidationUtilTest {
 
 	private ResourceValidationUtil validationUtil = new ResourceValidationUtil();
 
-	@Test(expected = InvalidResourceException.class)
+	@Test(expected = ResourceNotFoundException.class)
 	public void ensureExistenceShouldFailIfObjectIsNull() {
 		validationUtil.ensureExistence(null);
 	}
