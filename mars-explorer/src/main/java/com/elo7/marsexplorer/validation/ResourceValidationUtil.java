@@ -5,17 +5,12 @@ import org.springframework.stereotype.Component;
 import com.elo7.marsexplorer.exception.InvalidResourceException;
 
 @Component
-public class ValidationUtil {
+public class ResourceValidationUtil {
 
 	public void ensureExistence(Object resource) throws InvalidResourceException {
-		if (resource == null){
+		if (resource == null) {
 			throw new InvalidResourceException();
 		}
 	}
-	
-	public void ensureTrue(boolean condition) throws InvalidResourceException {//FIXME horrendo
-		if (!condition){
-			throw new InvalidResourceException();
-		}
-	}
+
 }

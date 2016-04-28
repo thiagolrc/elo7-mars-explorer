@@ -4,9 +4,9 @@ import org.junit.Test;
 
 import com.elo7.marsexplorer.exception.InvalidResourceException;
 
-public class ValidationUtilTest {
+public class ResourceValidationUtilTest {
 
-	private ValidationUtil validationUtil = new ValidationUtil();
+	private ResourceValidationUtil validationUtil = new ResourceValidationUtil();
 
 	@Test(expected = InvalidResourceException.class)
 	public void ensureExistenceShouldFailIfObjectIsNull() {

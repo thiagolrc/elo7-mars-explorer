@@ -1,5 +1,8 @@
 package com.elo7.marsexplorer.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,60 +17,57 @@ import com.elo7.marsexplorer.domain.Plateau;
 import com.elo7.marsexplorer.domain.Probe;
 import com.elo7.marsexplorer.dto.CommandSequenceDTO;
 import com.elo7.marsexplorer.dto.ProbeDTO;
-import com.elo7.marsexplorer.repository.PlateauRepository;
 import com.elo7.marsexplorer.repository.ProbeRepository;
-import com.elo7.marsexplorer.validation.ValidationUtil;
+import com.elo7.marsexplorer.validation.ResourceValidationUtil;
 
 @RestController
-@RequestMapping("/plateaus")
-public class Controller {
-
-	// TODO Inserir camada de validação
-
-	// TODO Tratar excecoes Illegal e resourceNotFound
-
-	@Autowired
-	private PlateauRepository plateauRepository;
+@RequestMapping("/plateaus/{plateauId}")
+public class ProbeController {
 	@Autowired
 	private ProbeRepository probeRepository;
 	@Autowired
-	private ValidationUtil validationUtil;
+	private ResourceValidationUtil validationUtil;
 	@Autowired
 	private ProbeConverter probeConverter;
+	@Autowired
+	private PlateauController plateuController;// TODO Talvez criar uma camada negocio?
 
-	@RequestMapping(method = RequestMethod.POST)
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public Plateau postPlateau(@RequestBody Plateau plateau) {
-		return plateauRepository.save(plateau);
-	}
-
-	@RequestMapping(value = "/{plateauId}/probes", method = RequestMethod.POST)
+	@RequestMapping(value = "/probes", method = RequestMethod.POST)
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public ProbeDTO postProbe(@PathVariable("plateauId") int plateauId, @RequestBody ProbeDTO probe) {
-		// TODO Mais uma camada para orquestar essas coisas? Deixaria o controller mais limpo (menos dependencias, sem lógica), simplificaria o teste e pode evitar bizarrices de
-		// negócio (que ainda nao existem)
-		Plateau plateau = plateauRepository.findOne(plateauId);
-		validationUtil.ensureExistence(plateau);
+		Plateau plateau = plateuController.getPlateau(plateauId);
 
 		Probe probeToSave = probeConverter.fromDTO(probe, plateau);
 
 		return probeConverter.toDTO(probeRepository.save(probeToSave));
 	}
 
-	@RequestMapping(value = "/{plateauId}/probes/{probeId}/command-sequence", method = RequestMethod.POST)
+	@RequestMapping(value = "/probes/{probeId}", method = RequestMethod.GET)
+	@ResponseStatus(code = HttpStatus.OK)
+	public ProbeDTO getProbe(@PathVariable("plateauId") int plateauId, @PathVariable("probeId") int probeId) {
+		Probe probe = probeRepository.findByIdAndPlateauId(probeId, plateauId);
+		validationUtil.ensureExistence(probe);
+
+		return probeConverter.toDTO(probe);
+	}
+
+	@RequestMapping(value = "/probes", method = RequestMethod.GET)
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<ProbeDTO> getProbes(@PathVariable("plateauId") int plateauId) {
+		List<Probe> probes = probeRepository.findByPlateauId(plateauId);
+
+		return probes.stream().map(p -> probeConverter.toDTO(p)).collect(Collectors.toList());
+	}
+
+	@RequestMapping(value = "/probes/{probeId}/command-sequence", method = RequestMethod.POST)
 	@ResponseStatus(code = HttpStatus.OK)
 	public CommandSequenceDTO postCommandSequence(@PathVariable("plateauId") int plateauId, @PathVariable("probeId") int probeId, @RequestBody CommandSequenceDTO commandSequence) {
 		// TODO Tem cara de que deveria ser assincrono, mas teria que criar fila, executar em ordem e evitar concorrência
-		Plateau plateau = plateauRepository.findOne(plateauId);
-		validationUtil.ensureExistence(plateau);
-
-		Probe probe = probeRepository.findOne(probeId);
+		Probe probe = probeRepository.findByIdAndPlateauId(probeId, plateauId);
 		validationUtil.ensureExistence(probe);
 
-		validationUtil.ensureTrue(probe.getPlateau().getId() == plateau.getId());//FIXME fazer um equals ou uma query no jpa
+		probe.executeCommands(commandSequence.getCommands());//TODO ta esquisito isso aqui
 
-		probe.executeCommands(commandSequence.getCommands());
-		
 		probeRepository.save(probe);
 
 		return commandSequence;// TODO Talvez devesse voltar uma lista com o resultado de cada comando
