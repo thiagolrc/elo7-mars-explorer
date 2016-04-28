@@ -1,5 +1,7 @@
 package com.elo7.marsexplorer.repository;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +49,32 @@ public class ProbeRepositoryTest {
 		Probe probe = new Probe(position, new Plateau(2, 3));
 
 		probeRepository.save(probe);
+	}
+
+	@Test
+	public void findByIdAndPlateauIdShoulFindProbe() {
+		Position position = new Position(2, 3, CardinalDirection.N);
+		Plateau plateau = plateauRepository.save(new Plateau(2, 3));
+
+		Probe probe = new Probe(position, plateau);
+
+		Probe savedProbe = probeRepository.save(probe);
+
+		Assert.assertNotNull(probeRepository.findByIdAndPlateauId(savedProbe.getId(), plateau.getId()));
+	}
+
+	@Test
+	public void findByPlateauIdShoulFindAllProblesFromPlateau() {
+		Plateau plateau = plateauRepository.save(new Plateau(2, 3));
+
+		Position position = new Position(2, 3, CardinalDirection.N);
+		Probe probe = new Probe(position, plateau);
+
+		Probe savedProbe = probeRepository.save(probe);
+
+		List<Probe> probes = probeRepository.findByPlateauId(plateau.getId());
+		Assert.assertFalse(probes.isEmpty());
+		Assert.assertEquals(savedProbe.getId(), probes.get(0).getId());
 	}
 
 }
