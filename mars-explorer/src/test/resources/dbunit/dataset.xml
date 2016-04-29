@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <dataset>
     <plateau id="1" x="9998" y="9999"/> 
-    <probe id="1" x="9998" y="9999" plateau_id="1" />
-	<probe id="2" x="9998" y="9998" plateau_id="1" />
+    <probe id="1" x="9998" y="9999" direction="N" plateau_id="1" />
+	<probe id="2" x="9998" y="9998" direction="S" plateau_id="1" />
 </dataset>

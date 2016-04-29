@@ -1,17 +1,21 @@
 package com.elo7.marsexplorer.domain;
 
+import javax.persistence.Basic;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 /** Posição da sonda: coordenadas + direção */
 @Embeddable
 public class Position {
-//TODO validacao de notnull + testes
 	private int x;
 	private int y;
+	@Basic(optional=false)
+	@Enumerated(EnumType.STRING)
 	private CardinalDirection direction;
-	
-	public Position(){
-		
+
+	public Position() {
+
 	}
 
 	public Position(final int x, final int y, final CardinalDirection direction) {

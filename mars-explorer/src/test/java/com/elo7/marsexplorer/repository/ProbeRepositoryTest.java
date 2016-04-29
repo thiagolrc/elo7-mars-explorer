@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestExecutionListeners;
@@ -14,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.elo7.marsexplorer.Application;
 import com.elo7.marsexplorer.domain.CardinalDirection;
@@ -58,6 +60,25 @@ public class ProbeRepositoryTest {
 	public void saveShouldFailIfNoPersitedPlateauIsSet() {
 		Position position = new Position(2, 3, CardinalDirection.N);
 		Probe probe = new Probe(position, new Plateau(2, 3));
+
+		probeRepository.save(probe);
+	}
+
+	@Test(expected = DataIntegrityViolationException.class)
+	public void saveShouldFailIfNoPositionIsSet() {
+		Plateau plateau = plateauRepository.findOne(1);
+		Probe probe = new Probe();
+		ReflectionTestUtils.setField(probe, "plateau", plateau);
+
+		probeRepository.save(probe);
+	}
+
+	@Test(expected = DataIntegrityViolationException.class)
+	public void saveShouldFailIfPositionWithNullDiretionIsSet() {
+		Position position = new Position(2, 3, null);
+		Plateau plateau = plateauRepository.findOne(1);
+
+		Probe probe = new Probe(position, plateau);
 
 		probeRepository.save(probe);
 	}

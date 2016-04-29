@@ -25,8 +25,6 @@ import com.elo7.marsexplorer.validation.ResourceValidationUtil;
 @RequestMapping("/plateaus")
 public class PlateauController {
 
-	// TODO Inserir camada de validação
-
 	@Autowired
 	private PlateauRepository plateauRepository;
 

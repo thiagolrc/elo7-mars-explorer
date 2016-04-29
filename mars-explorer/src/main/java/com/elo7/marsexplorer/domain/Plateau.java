@@ -19,7 +19,7 @@ public class Plateau implements Serializable {
 	@Id
 	@GeneratedValue
 	@Max(0)
-	@Min(0) // quando tivermos o PUT teremos que criar grupos de validações para separa pois no PUT deve ser não nulo
+	@Min(0) // TODO quando tivermos o PUT teremos que criar grupos de validações para separa pois no PUT deve ser não nulo
 	private int id;
 	@Min(1)
 	private int x;

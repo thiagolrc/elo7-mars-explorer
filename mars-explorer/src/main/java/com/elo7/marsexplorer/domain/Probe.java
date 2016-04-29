@@ -2,6 +2,7 @@ package com.elo7.marsexplorer.domain;
 
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,7 +24,8 @@ public class Probe {
 	@Id
 	@GeneratedValue
 	private int id;
-	private Position position;// TODO notNull + testes
+	@Basic(optional=false)
+	private Position position;
 	@ManyToOne(optional = false)
 	private Plateau plateau;
 
@@ -46,8 +48,6 @@ public class Probe {
 		this.id = id;
 	}
 
-	// TODO Sera q nao faz mais sentido o plateau fazer parte da posicao ou
-	// coisa parecida?
 	/**
 	 * 
 	 * @param position
@@ -102,7 +102,7 @@ public class Probe {
 	private void validatePositionOnPlateau(final Position newPosition) throws BadRequestException {
 		if (!plateau.isPositionValid(newPosition)) {
 			logger.warn(String.format("Tentativa de mover sonda %s da posicao [%s] para [%s] que fica fora do planalto", id, this.position.toString(), newPosition.toString()));
-			throw new BadRequestException("Não é possível mover a sonda para a posição "+newPosition.toString()+"poisi esta está fora do planalto.");
+			throw new BadRequestException("Não é possível mover a sonda para a posição " + newPosition.toString() + "poisi esta está fora do planalto.");
 		}
 	}
 

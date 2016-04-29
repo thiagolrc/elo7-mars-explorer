@@ -98,15 +98,16 @@ public class ProbeController {
 	@RequestMapping(value = "/probes/{probeId}/command-sequence", method = RequestMethod.POST)
 	@ResponseStatus(code = HttpStatus.OK)
 	public CommandSequenceDTO postCommandSequence(@PathVariable("plateauId") int plateauId, @PathVariable("probeId") int probeId, @RequestBody CommandSequenceDTO commandSequence) {
-		// TODO Tem cara de que deveria ser assincrono, mas teria que criar fila, executar em ordem e evitar concorrência
+		// TODO Poderia ser assincrono. Lembrar que para isso teria que criar uma fila e executar em ordem. O método teria também que ou receber uma função de callback ou devolver
+		// um ticket para consulta de término da execução
 		Probe probe = probeRepository.findByIdAndPlateauId(probeId, plateauId);
 		validationUtil.ensureExistence(probe);
 
-		probe.executeCommands(commandSequence.getCommands());// TODO ta esquisito isso aqui
+		probe.executeCommands(commandSequence.getCommands());
 
 		probeRepository.save(probe);
 
-		return commandSequence;// TODO Talvez devesse voltar uma lista com o resultado de cada comando
+		return commandSequence;// TODO Talvez devesse voltar uma lista com o estado atual da sonda após execução de cada comando
 	}
 
 }
