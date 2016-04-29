@@ -85,7 +85,7 @@ public class AcceptanceTest {
 
 		// enviando commandos para sonda 1
 		CommandSequenceDTO commands = new CommandSequenceDTO();
-		commands.setCommands(Arrays.asList(L, M, L, M, L, M, L, M, M));
+		commands.getCommands().addAll(Arrays.asList(L, M, L, M, L, M, L, M, M));
 		String gsonCommands = gson.toJson(commands);
 		post = MockMvcRequestBuilders.post("/plateaus/" + plateau.getId() + "/probes/" + probe1.getId() + "/command-sequence").contentType("application/json;charset=UTF-8")
 				.content(gsonCommands);
@@ -105,7 +105,7 @@ public class AcceptanceTest {
 
 		// enviando commandos para sonda 2
 		commands = new CommandSequenceDTO();
-		commands.setCommands(Arrays.asList(M, M, R, M, M, R, M, R, R, M));
+		commands.getCommands().addAll(Arrays.asList(M, M, R, M, M, R, M, R, R, M));
 		gsonCommands = gson.toJson(commands);
 		post = MockMvcRequestBuilders.post("/plateaus/" + plateau.getId() + "/probes/" + probe2.getId() + "/command-sequence").contentType("application/json;charset=UTF-8")
 				.content(gsonCommands);

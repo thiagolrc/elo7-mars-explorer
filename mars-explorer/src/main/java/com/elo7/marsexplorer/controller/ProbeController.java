@@ -30,6 +30,7 @@ import com.elo7.marsexplorer.validation.ResourceValidationUtil;
 @RestController
 @RequestMapping("/plateaus/{plateauId}")
 public class ProbeController {
+	// TODO HATEOAS
 	@Autowired
 	private ProbeRepository probeRepository;
 	@Autowired
@@ -103,11 +104,11 @@ public class ProbeController {
 		Probe probe = probeRepository.findByIdAndPlateauId(probeId, plateauId);
 		validationUtil.ensureExistence(probe);
 
-		probe.executeCommands(commandSequence.getCommands());
+		commandSequence.getCommands().stream().forEachOrdered(c -> commandSequence.getPositionChangeLog().add(probe.executeCommand(c).toString()));
 
 		probeRepository.save(probe);
 
-		return commandSequence;// TODO Talvez devesse voltar uma lista com o estado atual da sonda após execução de cada comando
+		return commandSequence;
 	}
 
 }

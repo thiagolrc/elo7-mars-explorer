@@ -1,5 +1,9 @@
 package com.elo7.marsexplorer.controller;
 
+import static com.elo7.marsexplorer.domain.NavigationCommand.L;
+import static com.elo7.marsexplorer.domain.NavigationCommand.M;
+import static com.elo7.marsexplorer.domain.NavigationCommand.R;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +34,7 @@ import com.elo7.marsexplorer.converter.ProbeConverter;
 import com.elo7.marsexplorer.domain.CardinalDirection;
 import com.elo7.marsexplorer.domain.NavigationCommand;
 import com.elo7.marsexplorer.domain.Plateau;
+import com.elo7.marsexplorer.domain.Position;
 import com.elo7.marsexplorer.domain.Probe;
 import com.elo7.marsexplorer.dto.CommandSequenceDTO;
 import com.elo7.marsexplorer.dto.ProbeDTO;
@@ -59,7 +64,7 @@ public class ProbeControllerTest {
 	@Mock
 	private PlateauController plateuController;
 	@Captor
-	private ArgumentCaptor<List<NavigationCommand>> argumentCaptor;
+	private ArgumentCaptor<NavigationCommand> argumentCaptor;
 
 	@Before
 	public void setup() {
@@ -158,24 +163,44 @@ public class ProbeControllerTest {
 		Probe probe = Mockito.mock(Probe.class);
 		Mockito.when(probe.getPlateau()).thenReturn(plateau);
 		Mockito.when(probeRepository.findByIdAndPlateauId(2, 1)).thenReturn(probe);
-
+		
+		CommandSequenceDTO commands = new CommandSequenceDTO();
+		commands.getCommands().addAll(Arrays.asList(L,M,R));
+		
+		Position p1 = Mockito.mock(Position.class);
+		Mockito.when(p1.toString()).thenReturn("left");
+		Mockito.when(probe.executeCommand(L)).thenReturn(p1);
+		Position p2 = Mockito.mock(Position.class);
+		Mockito.when(p2.toString()).thenReturn("move");
+		Mockito.when(probe.executeCommand(M)).thenReturn(p2);
+		Position p3 = Mockito.mock(Position.class);
+		Mockito.when(p3.toString()).thenReturn("right");
+		Mockito.when(probe.executeCommand(R)).thenReturn(p3);
+		
 		InOrder order = Mockito.inOrder(validationUtil, probe, probeRepository);
 
-		CommandSequenceDTO commands = new CommandSequenceDTO();
-		commands.getCommands().add(NavigationCommand.L);
+		
+		
 		String json = gson.toJson(commands);
 		MockHttpServletRequestBuilder post = MockMvcRequestBuilders.post("/plateaus/1/probes/2/command-sequence").contentType("application/json;charset=UTF-8").content(json);
 		ResultActions result = this.mockMvc.perform(post);
 		result.andExpect(MockMvcResultMatchers.status().isOk());
 		result.andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"));
 		result.andExpect(MockMvcResultMatchers.jsonPath("$.commands[0]", org.hamcrest.Matchers.is("L")));
+		result.andExpect(MockMvcResultMatchers.jsonPath("$.commands[1]", org.hamcrest.Matchers.is("M")));
+		result.andExpect(MockMvcResultMatchers.jsonPath("$.commands[2]", org.hamcrest.Matchers.is("R")));
+		result.andExpect(MockMvcResultMatchers.jsonPath("$.positionChangeLog[0]", org.hamcrest.Matchers.is("left")));
+		result.andExpect(MockMvcResultMatchers.jsonPath("$.positionChangeLog[1]", org.hamcrest.Matchers.is("move")));
+		result.andExpect(MockMvcResultMatchers.jsonPath("$.positionChangeLog[2]", org.hamcrest.Matchers.is("right")));
 
 		order.verify(validationUtil).ensureExistence(probe);
-		order.verify(probe).executeCommands(argumentCaptor.capture());
+		order.verify(probe,Mockito.times(3)).executeCommand(argumentCaptor.capture());
 		order.verify(probeRepository).save(probe);
 
-		Assert.assertEquals(1, argumentCaptor.getValue().size());
-		Assert.assertEquals(NavigationCommand.L, argumentCaptor.getValue().get(0));
+		Assert.assertEquals(3, argumentCaptor.getAllValues().size());
+		Assert.assertEquals(NavigationCommand.L, argumentCaptor.getAllValues().get(0));
+		Assert.assertEquals(NavigationCommand.M, argumentCaptor.getAllValues().get(1));
+		Assert.assertEquals(NavigationCommand.R, argumentCaptor.getAllValues().get(2));
 	}
 	
 	@Test

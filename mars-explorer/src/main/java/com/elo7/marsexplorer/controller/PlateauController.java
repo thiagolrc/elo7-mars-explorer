@@ -24,7 +24,7 @@ import com.elo7.marsexplorer.validation.ResourceValidationUtil;
 @RestController
 @RequestMapping("/plateaus")
 public class PlateauController {
-
+	//TODO HATEOAS
 	@Autowired
 	private PlateauRepository plateauRepository;
 

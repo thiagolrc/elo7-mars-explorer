@@ -9,12 +9,14 @@ public class CommandSequenceDTO {
 
 	private List<NavigationCommand> commands = new ArrayList<>();
 
+	private List<String> positionChangeLog = new ArrayList<>();
+
 	public List<NavigationCommand> getCommands() {
 		return commands;
 	}
 
-	public void setCommands(List<NavigationCommand> commands) {
-		this.commands = commands;
+	public List<String> getPositionChangeLog() {
+		return positionChangeLog;
 	}
 
 }

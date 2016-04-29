@@ -24,7 +24,7 @@ public class Probe {
 	@Id
 	@GeneratedValue
 	private int id;
-	@Basic(optional=false)
+	@Basic(optional = false)
 	private Position position;
 	@ManyToOne(optional = false)
 	private Plateau plateau;
@@ -64,11 +64,11 @@ public class Probe {
 	/**
 	 * Executa um {@link NavigationCommand} e altera a posição da sonda conforme o comando
 	 * 
-	 * @return {@link Position} representando a FS nova localização da câmera
+	 * @return {@link Position} representando com a nova localização da câmera
 	 * @throws BadRequestException
 	 *             caso o comando tente navegar a sonda para fora do planalto de exploração a que ela pertence.
 	 */
-	Position executeCommand(final NavigationCommand navigationCommand) throws BadRequestException {
+	public Position executeCommand(final NavigationCommand navigationCommand) throws BadRequestException {
 		Position newPosition = navigationCommand.calcNewPosition(position);
 		validatePositionOnPlateau(newPosition);
 		logger.debug(String.format("Movendo sonda %s da posicao [%s] para [%s]", id, position.toString(), newPosition.toString()));
