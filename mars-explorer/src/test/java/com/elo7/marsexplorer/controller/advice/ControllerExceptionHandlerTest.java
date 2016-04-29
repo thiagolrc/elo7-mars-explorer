@@ -1,7 +1,5 @@
 package com.elo7.marsexplorer.controller.advice;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

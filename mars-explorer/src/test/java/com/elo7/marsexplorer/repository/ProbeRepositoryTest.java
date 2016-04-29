@@ -39,7 +39,7 @@ public class ProbeRepositoryTest {
 	@Autowired
 	private ProbeRepository probeRepository;
 	@Autowired
-	private PlateauRepository plateauRepository;// TODO Trocar por um dataset para nao depender do plateauRepo funcionar
+	private PlateauRepository plateauRepository;
 
 	@Test
 	public void saveShouldAssignIdAndPersitProperties() {

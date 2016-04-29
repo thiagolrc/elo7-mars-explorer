@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.elo7.marsexplorer.domain.Plateau;
 import com.elo7.marsexplorer.domain.Probe;
 
 /**

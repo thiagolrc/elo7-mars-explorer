@@ -13,7 +13,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.elo7.marsexplorer.domain.CardinalDirection;
 import com.elo7.marsexplorer.domain.Plateau;
 
 /**
