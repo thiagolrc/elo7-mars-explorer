@@ -8,19 +8,30 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 import com.elo7.marsexplorer.Application;
 import com.elo7.marsexplorer.domain.CardinalDirection;
 import com.elo7.marsexplorer.domain.Plateau;
 import com.elo7.marsexplorer.domain.Position;
 import com.elo7.marsexplorer.domain.Probe;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 /**
  * Tetes para {@link ProbeRepository}
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(Application.class)
+@SpringApplicationConfiguration(classes = Application.class)
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class,
+		DbUnitTestExecutionListener.class })
+@DirtiesContext
+@DatabaseSetup("/dbunit/dataset.xml")
 public class ProbeRepositoryTest {
 
 	@Autowired
@@ -31,7 +42,7 @@ public class ProbeRepositoryTest {
 	@Test
 	public void saveShouldAssignIdAndPersitProperties() {
 		Position position = new Position(2, 3, CardinalDirection.N);
-		Plateau plateau = plateauRepository.save(new Plateau(2, 3));
+		Plateau plateau = plateauRepository.findOne(1);
 
 		Probe probe = new Probe(position, plateau);
 
@@ -53,28 +64,13 @@ public class ProbeRepositoryTest {
 
 	@Test
 	public void findByIdAndPlateauIdShoulFindProbe() {
-		Position position = new Position(2, 3, CardinalDirection.N);
-		Plateau plateau = plateauRepository.save(new Plateau(2, 3));
-
-		Probe probe = new Probe(position, plateau);
-
-		Probe savedProbe = probeRepository.save(probe);
-
-		Assert.assertNotNull(probeRepository.findByIdAndPlateauId(savedProbe.getId(), plateau.getId()));
+		Assert.assertNotNull(probeRepository.findByIdAndPlateauId(2, 1));// from dataset
 	}
 
 	@Test
 	public void findByPlateauIdShoulFindAllProblesFromPlateau() {
-		Plateau plateau = plateauRepository.save(new Plateau(2, 3));
-
-		Position position = new Position(2, 3, CardinalDirection.N);
-		Probe probe = new Probe(position, plateau);
-
-		Probe savedProbe = probeRepository.save(probe);
-
-		List<Probe> probes = probeRepository.findByPlateauId(plateau.getId());
-		Assert.assertFalse(probes.isEmpty());
-		Assert.assertEquals(savedProbe.getId(), probes.get(0).getId());
+		List<Probe> probes = probeRepository.findByPlateauId(1);
+		Assert.assertEquals(2, probes.size());// do dataset
 	}
 
 }

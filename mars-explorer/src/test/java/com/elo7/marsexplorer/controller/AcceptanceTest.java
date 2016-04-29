@@ -12,8 +12,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -27,6 +32,8 @@ import com.elo7.marsexplorer.domain.CardinalDirection;
 import com.elo7.marsexplorer.domain.Plateau;
 import com.elo7.marsexplorer.dto.CommandSequenceDTO;
 import com.elo7.marsexplorer.dto.ProbeDTO;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.google.gson.Gson;
 
 /**
@@ -35,7 +42,11 @@ import com.google.gson.Gson;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-@WebAppConfiguration
+@WebIntegrationTest
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class,
+		DbUnitTestExecutionListener.class })
+@DirtiesContext
+@DatabaseSetup("/dbunit/dataset.xml")
 public class AcceptanceTest {
 
 	@Autowired
@@ -67,7 +78,7 @@ public class AcceptanceTest {
 		probe1.setY(2);
 		probe1.setDirection(CardinalDirection.N);
 		String gsonProbe = gson.toJson(probe1);
-		post = MockMvcRequestBuilders.post("/plateaus/" + plateau.getId()+"/probes").contentType("application/json;charset=UTF-8").content(gsonProbe);
+		post = MockMvcRequestBuilders.post("/plateaus/" + plateau.getId() + "/probes").contentType("application/json;charset=UTF-8").content(gsonProbe);
 		result = this.mockMvc.perform(post);
 		result.andExpect(MockMvcResultMatchers.status().isCreated());
 		probe1 = gson.fromJson(result.andReturn().getResponse().getContentAsString(), ProbeDTO.class);
@@ -87,7 +98,7 @@ public class AcceptanceTest {
 		probe2.setY(3);
 		probe2.setDirection(CardinalDirection.E);
 		gsonProbe = gson.toJson(probe2);
-		post = MockMvcRequestBuilders.post("/plateaus/" + plateau.getId()+"/probes").contentType("application/json;charset=UTF-8").content(gsonProbe);
+		post = MockMvcRequestBuilders.post("/plateaus/" + plateau.getId() + "/probes").contentType("application/json;charset=UTF-8").content(gsonProbe);
 		result = this.mockMvc.perform(post);
 		result.andExpect(MockMvcResultMatchers.status().isCreated());
 		probe2 = gson.fromJson(result.andReturn().getResponse().getContentAsString(), ProbeDTO.class);
@@ -100,14 +111,14 @@ public class AcceptanceTest {
 				.content(gsonCommands);
 		result = this.mockMvc.perform(post);
 		result.andExpect(MockMvcResultMatchers.status().isOk());
-		
-		MockHttpServletRequestBuilder get = MockMvcRequestBuilders.get("/plateaus/" + plateau.getId()+"/probes/"+probe1.getId());
+
+		MockHttpServletRequestBuilder get = MockMvcRequestBuilders.get("/plateaus/" + plateau.getId() + "/probes/" + probe1.getId());
 		result = this.mockMvc.perform(get);
 		result.andExpect(MockMvcResultMatchers.status().isOk());
 		ProbeDTO movedProbe1 = gson.fromJson(result.andReturn().getResponse().getContentAsString(), ProbeDTO.class);
 		Assert.assertEquals("1 3 N", movedProbe1.getX() + " " + movedProbe1.getY() + " " + movedProbe1.getDirection());
-		
-		get = MockMvcRequestBuilders.get("/plateaus/" + plateau.getId()+"/probes/"+probe2.getId());
+
+		get = MockMvcRequestBuilders.get("/plateaus/" + plateau.getId() + "/probes/" + probe2.getId());
 		result = this.mockMvc.perform(get);
 		result.andExpect(MockMvcResultMatchers.status().isOk());
 		ProbeDTO movedProbe2 = gson.fromJson(result.andReturn().getResponse().getContentAsString(), ProbeDTO.class);
